@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "599738806722",
+    "project_id": "smile-55bcf",
+    "storage_bucket": "smile-55bcf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:599738806722:android:0ab2245d2e9ca089f7665b",
+        "android_client_info": {
+          "package_name": "com.abdelsalam.smile001"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "599738806722-es2tvvq3rp7u9s79fd5co9tduedp3t4b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.abdelsalam.smile001",
+            "certificate_hash": "e35362a1560acffaff669d6ec3cc72c906155936"
+          }
+        },
+        {
+          "client_id": "599738806722-gc4cfvc8458m8347b0f638ghuktbdik6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEO34XCk-bqFxdfvMnke9Qbj-EqClzjZU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "599738806722-gc4cfvc8458m8347b0f638ghuktbdik6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">"Smile"</string>
+    <string name="facebook_app_id">447398106759419</string>
+    <string name="fb_login_protocol_scheme">fb447398106759419</string>
+    <string name="facebook_client_token">4cb45a4cf7f519a70fdb855c85164e87</string>
+
+
+</resources>
