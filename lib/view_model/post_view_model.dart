@@ -45,7 +45,7 @@ class PostViewModel extends GetxController {
       wait.value = true;
 
       for (int i = 0; i < images.length; i++) {
-        FireStorageService().uploadFile(images[i].path).then((value) {
+        FireStorageService().uploadFile(filePath: images[i].path).then((value) {
           imagesUrls.add(value!);
           if (i == images.length - 1) {
             wait.value = false;

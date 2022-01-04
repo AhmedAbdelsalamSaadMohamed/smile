@@ -105,6 +105,7 @@ class _CameraAppState extends State<CameraApp> {
     availableCameras().then((cameras) {
       cameraController =
           CameraController(cameras[currentCamera], ResolutionPreset.medium);
+      startTimer();
       cameraController!.initialize().then((_) {
         if (!mounted) {
           return;
@@ -113,7 +114,7 @@ class _CameraAppState extends State<CameraApp> {
       });
     });
 
-    startTimer();
+
   }
 
   @override

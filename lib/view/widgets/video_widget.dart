@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:hashtager/widgets/hashtag_text.dart';
 import 'package:smile/model/video_model.dart';
 import 'package:smile/services/firebase/firestorage_service.dart';
+import 'package:smile/view/pages/report_page.dart';
 import 'package:smile/view/pages/sign_in_page.dart';
 import 'package:smile/view/pages/tag_page.dart';
 import 'package:smile/view/widgets/profile_follow_button.dart';
@@ -326,7 +327,9 @@ class _VideoWidgetState extends State<VideoWidget> {
                         const SizedBox(
                           height: 20,
                         ),
-                         ShareButton(video: widget.video,),
+                        ShareButton(
+                          video: widget.video,
+                        ),
                       ],
                     )),
               ],
@@ -501,18 +504,14 @@ class _VideoWidgetState extends State<VideoWidget> {
               leading: const Icon(Icons.download),
               title: Text('Save Video'.tr),
               onTap: () {
-                if (Get.find<AuthViewModel>()
-                    .currentUser!
-                    .isAnonymous!) {
-                  Get.find<VideoPlayerViewModel>(
-                      tag: widget.video.id!)
+                if (Get.find<AuthViewModel>().currentUser!.isAnonymous!) {
+                  Get.find<VideoPlayerViewModel>(tag: widget.video.id!)
                       .videoPlayerController
                       .value
                       .pause();
-                  Get.to(SignInPage(),
-                      transition: Transition.downToUp);
+                  Get.to(SignInPage(), transition: Transition.downToUp);
                 } else
-                FireStorageService().downloadVideo(widget.video);
+                  FireStorageService().downloadVideo(widget.video);
                 Get.back();
               },
             ),
@@ -531,23 +530,21 @@ class _VideoWidgetState extends State<VideoWidget> {
                         ? Text('Remove from Favorites'.tr)
                         : Text('Add to Favorites'.tr),
                     onTap: () {
-                      if (Get.find<AuthViewModel>()
-                          .currentUser!
-                          .isAnonymous!) {
-                        Get.find<VideoPlayerViewModel>(
-                            tag: widget.video.id!)
+                      if (Get.find<AuthViewModel>().currentUser!.isAnonymous!) {
+                        Get.find<VideoPlayerViewModel>(tag: widget.video.id!)
                             .videoPlayerController
                             .value
                             .pause();
-                        Get.to(SignInPage(),
-                            transition: Transition.downToUp);
+                        Get.to(SignInPage(), transition: Transition.downToUp);
                       } else
-                      setState(() {
-                        isFavorite
-                            ? VideoViewModel().unFavoriteVideo(widget.video.id!)
-                            : VideoViewModel().favoriteVideo(widget.video.id!);
-                        isFavorite = !isFavorite;
-                      });
+                        setState(() {
+                          isFavorite
+                              ? VideoViewModel()
+                                  .unFavoriteVideo(widget.video.id!)
+                              : VideoViewModel()
+                                  .favoriteVideo(widget.video.id!);
+                          isFavorite = !isFavorite;
+                        });
                       Get.back();
                     },
                   );
@@ -556,34 +553,33 @@ class _VideoWidgetState extends State<VideoWidget> {
               leading: const Icon(Icons.outlined_flag_rounded),
               title: Text('Report'.tr),
               onTap: () {
-                if (Get.find<AuthViewModel>()
-                    .currentUser!
-                    .isAnonymous!) {
-                  Get.find<VideoPlayerViewModel>(
-                      tag: widget.video.id!)
+                if (Get.find<AuthViewModel>().currentUser!.isAnonymous!) {
+                  Get.find<VideoPlayerViewModel>(tag: widget.video.id!)
                       .videoPlayerController
                       .value
                       .pause();
-                  Get.to(SignInPage(),
-                      transition: Transition.downToUp);
+                  Get.to(SignInPage(), transition: Transition.downToUp);
                 }
-                Get.back();
+                Get.find<VideoPlayerViewModel>(tag: widget.video.id!)
+                    .videoPlayerController
+                    .value
+                    .pause();
+                Get.off(ReportPage(
+                  videoId: widget.video.id!,
+                ));
+                //Get.back();
               },
             ),
             ListTile(
               leading: const Icon(Icons.do_disturb_alt_rounded),
               title: Text('Not Interested'.tr),
               onTap: () {
-                if (Get.find<AuthViewModel>()
-                    .currentUser!
-                    .isAnonymous!) {
-                  Get.find<VideoPlayerViewModel>(
-                      tag: widget.video.id!)
+                if (Get.find<AuthViewModel>().currentUser!.isAnonymous!) {
+                  Get.find<VideoPlayerViewModel>(tag: widget.video.id!)
                       .videoPlayerController
                       .value
                       .pause();
-                  Get.to(SignInPage(),
-                      transition: Transition.downToUp);
+                  Get.to(SignInPage(), transition: Transition.downToUp);
                 }
                 Get.back();
               },

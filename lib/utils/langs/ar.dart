@@ -64,4 +64,33 @@ const Map<String, String> ar = {
   'Yes':'نعم',
   'No':'لا',
   'Describe your video':'اوصف هذا الفديو',
+  'Next':'التالي',
+  'Agree':'أوافق',
+  'New Model for Interact the video':'نموذج جديد للتفاعل مع الفيديو',
+  'The video screen split into Two parts Vertically for Positive or negative interaction.':
+      'تم تقسيم شاشة الفيديو إلى قسمين عموديًا للتفاعل الإيجابي أو السلبي.',
+  'User Data Security':'أمان بيانات المستخدم',
+  'You must make sure that your data is safe.':'يجب أن تتأكد من أن بياناتك آمنة',
+  'All data is encrypted':"جميع البيانات مشفرة",
+  'Privacy Policy':'سياسة الخصوصية',
+  'By tapping \"Agree\" you agree ':"بجرد النقر على \" أوافق \" فأنت توافق",
+  'Terms of Service':'شروط الخدمة',
+  ' and acknowledge that you have read out ':"وتقر بأنك قد قرأت",
+  'privacy Police':'سياسة خاصة',
+  ' to learn how to collect, use, and share your data.':"لمعرفة كيفية جمع واستخدام ومشاركة البيانات الخاصة بك.",
+  'Dangerous organizations and individuals':'المنظمات والأفراد الخطرين',
+  'Illegal activity and regulated goods':"النشاط غير القانوني والسلع الخاضعة للرقابة",
+  'Frauds and scams':"الاحتيال النصب",
+  'Violent and graphic content':"محتوى عنيف ومصور",
+  'Animal cruelty':'القسوة على الحيوان',
+  'Suicide, self-harm, and dangerous acts':"انتحار وإيذاء النفس وأعمال خطيرة",
+  'Hate speech':'خطاب الكراهية',
+  'Harassment or bullying':"التحرش أو التنمر",
+  'Pornography and nudity':"المواد الإباحية والعُري",
+  'Minor safety':"سلامة طفيفة",
+  'Spam':'رسائل إلكترونية مزعجة',
+  'Intellectual Property infringement':"التعدي على الملكية الفكرية"
+
+
+
 };

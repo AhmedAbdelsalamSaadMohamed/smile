@@ -15,20 +15,22 @@ class FireStorageService {
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
 
-  Future<String?> uploadFile(String filePath) async {
-    File file = File(filePath);
-
+  Future<String?> uploadFile({String? filePath , File? file}) async {
+    File myFile ;
+    if(filePath != null)
+     myFile = File(filePath);
+    else
+      myFile = file!;
     try {
       Task task = firebase_storage.FirebaseStorage.instance
           .ref(
-              'uploads/${Get.find<AuthViewModel>().currentUser!.id}/${filePath.split('/').last}')
-          .putFile(file);
+              'uploads/${Get.find<AuthViewModel>().currentUser!.id}/${myFile.path.split('/').last}')
+          .putFile(myFile);
       _videoSnakBar(task);
       return task.then((taskSnapshot) =>
           task.then((taskSnapshot) => taskSnapshot.ref.getDownloadURL()));
     } on firebase_core.FirebaseException catch (e) {
       print(e);
-
     }
   }
 
@@ -39,16 +41,12 @@ class FireStorageService {
         '${appDocDir.path}/$collectionVideos/${videoModel.name}${Timestamp.now()}');
 
     // try {
-      DownloadTask task = firebase_storage.FirebaseStorage.instance
-          .ref(
-              'uploads/${videoModel.ownerId}/${videoModel.name}')
-          .writeToFile(downloadToFile);
+    DownloadTask task = firebase_storage.FirebaseStorage.instance
+        .ref('uploads/${videoModel.ownerId}/${videoModel.name}')
+        .writeToFile(downloadToFile);
 
-      _videoSnakBar(task);
+    _videoSnakBar(task);
 
-    // } on firebase_core.FirebaseException catch (e) {
-    //   // e.g, e.code == 'canceled'
-    // }
   }
 
   _videoSnakBar(Task task) {
@@ -63,7 +61,7 @@ class FireStorageService {
 
       Get.rawSnackbar(
         message:
-        'Progress: ${((snapshot.bytesTransferred / snapshot.totalBytes) * 100).round()} %',
+            'Progress: ${((snapshot.bytesTransferred / snapshot.totalBytes) * 100).round()} %',
         snackPosition: SnackPosition.TOP,
         duration: (snapshot.bytesTransferred / snapshot.totalBytes) == 1
             ? const Duration(seconds: 1)
@@ -71,20 +69,25 @@ class FireStorageService {
         animationDuration: Duration.zero,
         //backgroundColor: Colors.black,
         //borderColor: Colors.white,
-       // showProgressIndicator: true,
-      // borderRadius: 20,
-       overlayColor: Colors.black,
-       // progressIndicatorValueColor: Color.fromRGBO(250, 51, 1, 1),
+        // showProgressIndicator: true,
+        // borderRadius: 20,
+        overlayColor: Colors.black,
+        // progressIndicatorValueColor: Color.fromRGBO(250, 51, 1, 1),
       );
       if (snapshot.state == firebase_storage.TaskState.success) {
-        Get.closeAllSnackbars();
-        Get.rawSnackbar(
-          snackPosition: SnackPosition.TOP,
-          message: 'Success',
-        );
+        if (Get.isSnackbarOpen) {
+          Get.closeCurrentSnackbar().then((value) => Get.rawSnackbar(
+            snackPosition: SnackPosition.TOP,
+            message: 'Success',
+          ));
+        }else{
+          Get.rawSnackbar(
+            snackPosition: SnackPosition.TOP,
+            message: 'Success',
+          );
+        }
+
       }
     });
   }
 }
-
-

@@ -80,3 +80,11 @@ const String collectionFavorites = 'favorites';
 const String collectionReactions ='reactions';
 const String fieldReactionId ='react_id';
 const String fieldReaction = 'react';
+
+/// Reports
+const String collectionReports = 'reports';
+const String fieldReportId = 'report_id';
+const String fieldReportReason = 'reason';
+const String fieldReportVideoId='video_id';
+const String fieldReportUserId = 'UserId';
+const String fieldReportTime ='report_time';

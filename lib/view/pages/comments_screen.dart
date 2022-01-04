@@ -134,7 +134,7 @@ class CommentsScreen extends StatelessWidget {
                                         File file = image.value;
                                         image.value = File('null');
                                         FireStorageService()
-                                            .uploadFile(file.path)
+                                            .uploadFile(filePath: file.path)
                                             .then((value) {
                                           _publish(
                                             context,
@@ -148,7 +148,7 @@ class CommentsScreen extends StatelessWidget {
                                         File file = video.value;
                                         video.value = File('null');
                                         FireStorageService()
-                                            .uploadFile(file.path)
+                                            .uploadFile(filePath: file.path)
                                             .then((value) {
                                           _publish(context,
                                               videoUrl: value, imageUrl: null);

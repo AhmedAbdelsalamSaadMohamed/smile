@@ -1,15 +1,15 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:hashtager/functions.dart';
 import 'package:smile/model/comment_model.dart';
+import 'package:smile/model/report_model.dart';
 import 'package:smile/model/tag_model.dart';
 import 'package:smile/model/user_model.dart';
 import 'package:smile/model/video_model.dart';
 import 'package:smile/services/firebase/favorites_fireStore.dart';
 import 'package:smile/services/firebase/firestorage_service.dart';
 import 'package:smile/services/firebase/follow_fireStore.dart';
+import 'package:smile/services/firebase/report_firestore.dart';
 import 'package:smile/services/firebase/tag_firestore.dart';
 import 'package:smile/services/firebase/video_firestore.dart';
 import 'package:smile/view/pages/main_view.dart';
@@ -26,20 +26,16 @@ class VideoViewModel extends GetxController {
   UserModel currentUser = Get.find<AuthViewModel>().currentUser!;
 
   publishVideo({String? description, required String filePath}) {
-    storage.uploadFile(filePath).then((url) {
+    storage.uploadFile(filePath: filePath).then((url) {
       if (url != null) {
-        VideoThumbnail.thumbnailData(
-          video: url,
+        VideoThumbnail.thumbnailFile(
+          video: filePath,
           imageFormat: ImageFormat.JPEG,
           maxWidth: 128,
-          quality: 360,
+          quality: 0,
         ).then((imageUint8List) async {
           if (imageUint8List != null) {
-            final Directory systemTempDir = Directory.systemTemp;
-            final File file =
-                await new File('${systemTempDir.path}/foo.png').create();
-            file.writeAsBytes(imageUint8List);
-            storage.uploadFile(file.path).then((imageUrl) {
+            storage.uploadFile(filePath: imageUint8List).then((imageUrl) {
               VideoModel video = VideoModel(
                   name: filePath.split('/').last,
                   url: url,
@@ -49,18 +45,26 @@ class VideoViewModel extends GetxController {
                   description: description);
               videoFireStore.addVideo(video).then((videoId) {
                 extractHashTags(description ?? '').forEach((tag) {
-                  TagFireStore().addVideoTag(TagModel(tag: tag, videoId: videoId));
+                  TagFireStore()
+                      .addVideoTag(TagModel(tag: tag, videoId: videoId));
                 });
               });
             });
           }
         });
-
-
       }
     });
     Get.find<MainNavigatorViewModel>().change(ProfilePage());
     Get.offAll(MainView());
+  }
+
+  reportVideo({required String videoId, required String reason}) {
+    ReportModel report = ReportModel(
+        videoId: videoId,
+        reason: reason,
+        userId: currentUser.id!,
+        time: Timestamp.now());
+    ReportFireStore().addReport(report);
   }
 
   Future<VideoModel> getVideo({required String videoId}) {
