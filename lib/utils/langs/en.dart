@@ -90,6 +90,9 @@ const Map<String, String> en = {
   'Minor safety':'Minor safety',
   'Spam':'Spam',
   'Intellectual Property infringement':'Intellectual Property infringement',
+  'Welcome to Smile Mobile App':'Welcome to Smile Mobile App',
+  'You can find Funny Videos or Posts':'You can find Funny Videos or Posts',
+  'and You can Share your videos or posts': 'and You can Share your videos or posts',
 
 
 

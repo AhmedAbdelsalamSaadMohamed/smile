@@ -14,7 +14,7 @@ class Intro extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IntroductionScreen(
-      pages: [pageWelcome(), page5050(), pageSecure(), pageAcceptTerms()],
+      pages: [pageWelcome(), page5050(), pageSecure(), pageAcceptTerms(context)],
       onDone: () {
         Get.to(SignInPage());
       },
@@ -59,9 +59,11 @@ class Intro extends StatelessWidget {
 
   pageWelcome() {
     return PageViewModel(
-      title: 'Welcome to Smile Mobile App',
-      body: 'You can find Funny Videos or Posts\n'
-          'and You can Share your videos or posts\n',
+      title: 'Welcome to Smile Mobile App'.tr,
+      body: 'You can find Funny Videos or Posts'.tr +
+          '\n'
+                  'and You can Share your videos or posts'
+              .tr,
       image: Image.asset(
         'assets/images/welcome.png',
         fit: BoxFit.contain,
@@ -69,11 +71,11 @@ class Intro extends StatelessWidget {
     );
   }
 
-  pageAcceptTerms() {
+  pageAcceptTerms(context) {
     return PageViewModel(
       title: 'Privacy Policy'.tr,
       bodyWidget: RichText(
-        text: TextSpan(children: [
+        text: TextSpan(style: TextStyle(color: Theme.of(context).colorScheme.secondary), children: [
           TextSpan(
               text: 'By tapping \"Agree\" you agree '.tr,
               style: TextStyle(fontSize: 20)),

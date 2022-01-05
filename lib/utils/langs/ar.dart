@@ -89,8 +89,8 @@ const Map<String, String> ar = {
   'Pornography and nudity':"المواد الإباحية والعُري",
   'Minor safety':"سلامة طفيفة",
   'Spam':'رسائل إلكترونية مزعجة',
-  'Intellectual Property infringement':"التعدي على الملكية الفكرية"
-
-
-
+  'Intellectual Property infringement':"التعدي على الملكية الفكرية",
+  'Welcome to Smile Mobile App':'Smile أهلا بك في تطبيق',
+  'You can find Funny Videos or Posts':'يمكنك العثور على مقاطع فيديو أو منشورات مضحكة',
+  'and You can Share your videos or posts':" كمايمكنك مشاركة مقاطع الفيديو أو المنشورات الخاصة بك"
 };
