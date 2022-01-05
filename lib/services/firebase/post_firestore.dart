@@ -28,7 +28,9 @@ class PostFireStore {
       return post.id;
     });
   }
-
+deletePost(String postId){
+    _postsReference.doc(postId).delete();
+}
   lovePost(String postId) {
     _postsReference.doc(postId).update({
       fieldPostLovesIds: FieldValue.arrayUnion([currentUser.id])

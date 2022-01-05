@@ -15,10 +15,10 @@ class FireStorageService {
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
 
-  Future<String?> uploadFile({String? filePath , File? file}) async {
-    File myFile ;
-    if(filePath != null)
-     myFile = File(filePath);
+  Future<String?> uploadFile({String? filePath, File? file}) async {
+    File myFile;
+    if (filePath != null)
+      myFile = File(filePath);
     else
       myFile = file!;
     try {
@@ -26,7 +26,7 @@ class FireStorageService {
           .ref(
               'uploads/${Get.find<AuthViewModel>().currentUser!.id}/${myFile.path.split('/').last}')
           .putFile(myFile);
-      _videoSnakBar(task);
+      _videoSnackBar(task);
       return task.then((taskSnapshot) =>
           task.then((taskSnapshot) => taskSnapshot.ref.getDownloadURL()));
     } on firebase_core.FirebaseException catch (e) {
@@ -34,22 +34,22 @@ class FireStorageService {
     }
   }
 
-  Future<void> downloadVideo(VideoModel videoModel) async {
+  Future<String> downloadVideo(VideoModel videoModel) async {
     Directory appDocDir = await getApplicationDocumentsDirectory();
     Directory(appDocDir.path + '/$collectionVideos').createSync();
     File downloadToFile = File(
-        '${appDocDir.path}/$collectionVideos/${videoModel.name}${Timestamp.now()}');
+        '${appDocDir.path}/$collectionVideos/${Timestamp.now().seconds}${videoModel.name}');
 
     // try {
     DownloadTask task = firebase_storage.FirebaseStorage.instance
         .ref('uploads/${videoModel.ownerId}/${videoModel.name}')
         .writeToFile(downloadToFile);
 
-    _videoSnakBar(task);
-
+    _videoSnackBar(task);
+    return task.then((_) => downloadToFile.uri.path);
   }
 
-  _videoSnakBar(Task task) {
+  _videoSnackBar(Task task) {
     task.snapshotEvents.listen((firebase_storage.TaskSnapshot snapshot) {
       print('Task state: ${snapshot.state}');
       // RxString message = 'Progress: ${(snapshot.bytesTransferred / snapshot.totalBytes) * 100} %'.obs;
@@ -77,16 +77,15 @@ class FireStorageService {
       if (snapshot.state == firebase_storage.TaskState.success) {
         if (Get.isSnackbarOpen) {
           Get.closeCurrentSnackbar().then((value) => Get.rawSnackbar(
-            snackPosition: SnackPosition.TOP,
-            message: 'Success',
-          ));
-        }else{
+                snackPosition: SnackPosition.TOP,
+                message: 'Success',
+              ));
+        } else {
           Get.rawSnackbar(
             snackPosition: SnackPosition.TOP,
             message: 'Success',
           );
         }
-
       }
     });
   }

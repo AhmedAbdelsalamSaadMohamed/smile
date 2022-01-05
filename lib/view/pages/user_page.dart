@@ -43,95 +43,95 @@ class UserPage extends StatelessWidget {
               );
             } else {
               UserModel user = snapshot.data!;
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: double.infinity,
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ProfileCircleAvatar(
-                              imageUrl: user.profileUrl,
-                              radius: MediaQuery.of(context).size.width * 0.16),
-                        ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                user.name ?? '',
-                                style: TextStyle(
-                                  fontSize: 24,
-                                  overflow: TextOverflow.clip,
-                                ),
-                                maxLines: 2,
+              return NestedScrollView(headerSliverBuilder: (context, innerBoxIsScrolled) {
+                return [
+                  SliverToBoxAdapter(
+                    child: Column(children: [
+                      SizedBox(
+                        width: double.infinity,
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ProfileCircleAvatar(
+                                  imageUrl: user.profileUrl,
+                                  radius: MediaQuery.of(context).size.width * 0.16),
+                            ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    user.name ?? '',
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      overflow: TextOverflow.clip,
+                                    ),
+                                    maxLines: 2,
+                                  ),
+                                  Text(user.username ?? ' ',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.grey,
+                                        overflow: TextOverflow.clip,
+                                      )),
+                                ],
                               ),
-                              Text(user.username ?? ' ',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.grey,
-                                    overflow: TextOverflow.clip,
-                                  )),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  SizedBox(
-                    width: double.infinity,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        StreamBuilder<int>(
-                            stream: userViewModel.getFollowingsNum(userId),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasError || !snapshot.hasData) {
-                                return _item(
-                                  context: context,
-                                  num: '0',
-                                  text: 'Followings'.tr,
-                                );
-                              }
-                              return _item(
-                                context: context,
-                                num: '${snapshot.data!}',
-                                text: 'Followings'.tr,
-                              );
-                            }),
-                        StreamBuilder<int>(
-                            stream: userViewModel.getFollowersNum(userId),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasError || !snapshot.hasData) {
-                                return _item(
-                                  context: context,
-                                  num: '0 ',
-                                  text: 'Followers'.tr,
-                                );
-                              }
-                              return _item(
-                                context: context,
-                                num: '${snapshot.data!}',
-                                text: 'Followers'.tr,
-                              );
-                            }),
-                        StreamBuilder<bool>(
-                            stream: UserViewModel().isFollowing(userId),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasError ||
-                                  !snapshot.hasData ||
-                                  userId ==
-                                      Get.find<AuthViewModel>()
-                                          .currentUser!
-                                          .id) {
-                                return Container();
-                              }
-                              return (snapshot.data!)
-                                  ? OutlinedButton(
+                      ),
+                      const SizedBox(height: 16),
+                      SizedBox(
+                        width: double.infinity,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            StreamBuilder<int>(
+                                stream: userViewModel.getFollowingsNum(userId),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasError || !snapshot.hasData) {
+                                    return _item(
+                                      context: context,
+                                      num: '0',
+                                      text: 'Followings'.tr,
+                                    );
+                                  }
+                                  return _item(
+                                    context: context,
+                                    num: '${snapshot.data!}',
+                                    text: 'Followings'.tr,
+                                  );
+                                }),
+                            StreamBuilder<int>(
+                                stream: userViewModel.getFollowersNum(userId),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasError || !snapshot.hasData) {
+                                    return _item(
+                                      context: context,
+                                      num: '0 ',
+                                      text: 'Followers'.tr,
+                                    );
+                                  }
+                                  return _item(
+                                    context: context,
+                                    num: '${snapshot.data!}',
+                                    text: 'Followers'.tr,
+                                  );
+                                }),
+                            StreamBuilder<bool>(
+                                stream: UserViewModel().isFollowing(userId),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasError ||
+                                      !snapshot.hasData ||
+                                      userId ==
+                                          Get.find<AuthViewModel>()
+                                              .currentUser!
+                                              .id) {
+                                    return Container();
+                                  }
+                                  return (snapshot.data!)
+                                      ? OutlinedButton(
                                       onPressed: () {
                                         if (Get.find<AuthViewModel>()
                                             .currentUser!
@@ -143,7 +143,7 @@ class UserPage extends StatelessWidget {
                                               .unFollow(userId: userId);
                                       },
                                       child: Text('UnFollow'.tr))
-                                  : OutlinedButton(
+                                      : OutlinedButton(
                                       onPressed: () {
                                         if (Get.find<AuthViewModel>()
                                             .currentUser!
@@ -155,47 +155,42 @@ class UserPage extends StatelessWidget {
                                               .follow(userId: userId);
                                       },
                                       child: Text('Follow'.tr));
-                            })
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    // height: MediaQuery.of(context).size.height -
-                    //     (MediaQuery.of(context).padding.vertical +
-                    //         MainNavigatorBar.height +
-                    //         appBarHeight +
-                    //         16),
-                    child: DefaultTabController(
-                        length: 2,
-                        child: Center(
-                          child: Column(children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TabBar(
-                                isScrollable: false,
-                                tabs: [
-                                  Tab(
-                                    child: Text('Videos'.tr),
-                                  ),
-                                  Tab(
-                                    child: Text('Posts'.tr),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                                child: TabBarView(
-                              physics: const NeverScrollableScrollPhysics(),
-                              children: [
-                                _videosTab(),
-                                _postsTab(),
-                              ],
-                            )),
-                          ]),
-                        )),
+                                })
+                          ],
+                        ),
+                      ),
+                    ],),
                   )
-                ],
-              );
+                ];
+              }, body: DefaultTabController(
+                  length: 2,
+                  child: Center(
+                    child: Column(children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TabBar(
+                          isScrollable: false,
+                          tabs: [
+                            Tab(
+                              child: Text('Videos'.tr),
+                            ),
+                            Tab(
+                              child: Text('Posts'.tr),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                          child: TabBarView(
+                            physics: const NeverScrollableScrollPhysics(),
+                            children: [
+                              _videosTab(),
+                              _postsTab(),
+                            ],
+                          )),
+                    ]),
+                  )),);
+
             }
           }),
     );
@@ -255,7 +250,7 @@ class UserPage extends StatelessWidget {
   Widget _postsTab() {
     return StreamBuilder<List<PostModel>>(
       stream:
-          PostViewModel().getUserPosts(userId: authViewModel.currentUser!.id!),
+          PostViewModel().getUserPosts(userId: userId),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Container();

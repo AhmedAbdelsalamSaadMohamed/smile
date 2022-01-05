@@ -15,11 +15,12 @@ import 'custom_image_network.dart';
 import 'image_galery_widget.dart';
 
 class PostWidget extends StatelessWidget {
-  PostWidget({Key? key, required this.postId}) : super(key: key) {
+  PostWidget({Key? key, required this.postId, this.inProfile = false}) : super(key: key) {
     postController = Get.put(PostViewModel.byTag(postId), tag: postId);
   }
 
   final String postId;
+  bool inProfile ;
   int count = 0;
   UserModel currentUser = Get.find<AuthViewModel>().currentUser!;
   late PostViewModel postController;
@@ -119,6 +120,23 @@ class PostWidget extends StatelessWidget {
                               )
                             ],
                           ),
+                          Expanded(child: Container()),
+                          inProfile?
+                          PopupMenuButton(itemBuilder: (context) {
+                            return[
+                              PopupMenuItem(child: ListTile(
+                                leading: Icon(Icons.delete_forever_rounded),
+                                title: Text('Delete Post'),
+                                onTap: (){
+                                  PostViewModel().deletePost(postId: postId);
+                                },
+                              ),padding: EdgeInsets.zero,)
+                            ];
+                          },child: Icon(Icons.more_vert_rounded),
+                            padding: EdgeInsets.zero ,
+
+                          ):Container(),
+
                         ],
                       );
                     }
@@ -256,7 +274,9 @@ class PostWidget extends StatelessWidget {
                       },
                       icon: const Icon(Icons.comment_outlined)),
                   IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.share_rounded)),
+                    onPressed: () {},
+                    icon: const Icon(Icons.reply_rounded),
+                  ),
                 ],
               ),
             ],

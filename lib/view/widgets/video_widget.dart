@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hashtager/widgets/hashtag_text.dart';
 import 'package:smile/model/video_model.dart';
-import 'package:smile/services/firebase/firestorage_service.dart';
 import 'package:smile/view/pages/report_page.dart';
 import 'package:smile/view/pages/sign_in_page.dart';
 import 'package:smile/view/pages/tag_page.dart';
@@ -92,7 +91,8 @@ class _VideoWidgetState extends State<VideoWidget> {
                 playOrPauseVideo();
               });
             },
-            child: Stack(
+            child:
+            Stack(
               fit: StackFit.expand,
               children: [
                 FittedBox(
@@ -511,7 +511,7 @@ class _VideoWidgetState extends State<VideoWidget> {
                       .pause();
                   Get.to(SignInPage(), transition: Transition.downToUp);
                 } else
-                  FireStorageService().downloadVideo(widget.video);
+                  VideoViewModel().downloadVideo(video: widget.video);
                 Get.back();
               },
             ),

@@ -19,8 +19,8 @@ import 'user_page.dart';
 enum tabs { forYou, followings, posts }
 
 class Homepage extends StatefulWidget {
-  Homepage({Key? key}) : super(key: key) ;
-   final HomeViewModel homeViewModel = Get.find<HomeViewModel>();
+  Homepage({Key? key}) : super(key: key);
+  final HomeViewModel homeViewModel = Get.find<HomeViewModel>();
   tabs tabIndex = tabs.forYou;
   Rx<VideoModel> video = VideoModel().obs;
 
@@ -36,6 +36,12 @@ class _HomepageState extends State<Homepage> {
     return PageView(
       controller: _pageController,
       scrollDirection: Axis.horizontal,
+      onPageChanged: (_) {
+        Get.find<VideoPlayerViewModel>(tag: widget.video.value.id!)
+            .videoPlayerController
+            .value
+            .pause();
+      },
       children: [
         Stack(
           children: [
@@ -53,7 +59,11 @@ class _HomepageState extends State<Homepage> {
                   TextButton(
                     onPressed: () {
                       setState(() {
-                        Get.find<VideoPlayerViewModel>(tag: widget.video.value.id).videoPlayerController.value.pause();
+                        Get.find<VideoPlayerViewModel>(
+                                tag: widget.video.value.id)
+                            .videoPlayerController
+                            .value
+                            .pause();
                         widget.tabIndex = tabs.posts;
                       });
                     },
@@ -74,8 +84,11 @@ class _HomepageState extends State<Homepage> {
                       TextButton(
                           onPressed: () {
                             setState(() {
-
-                              Get.find<VideoPlayerViewModel>(tag: widget.video.value.id).videoPlayerController.value.pause();
+                              Get.find<VideoPlayerViewModel>(
+                                      tag: widget.video.value.id)
+                                  .videoPlayerController
+                                  .value
+                                  .pause();
                               widget.tabIndex = tabs.followings;
                             });
                           },
@@ -102,7 +115,11 @@ class _HomepageState extends State<Homepage> {
                       TextButton(
                           onPressed: () {
                             setState(() {
-                              Get.find<VideoPlayerViewModel>(tag: widget.video.value.id).videoPlayerController.value.pause();
+                              Get.find<VideoPlayerViewModel>(
+                                      tag: widget.video.value.id)
+                                  .videoPlayerController
+                                  .value
+                                  .pause();
                               widget.tabIndex = tabs.forYou;
                             });
                           },
@@ -139,10 +156,12 @@ class _HomepageState extends State<Homepage> {
             ),
           ],
         ),
-        Obx(() => UserPage(
-              userId: widget.video.value.ownerId!,
-            ))
-      ],
+        widget.tabIndex != tabs.posts
+            ? Obx(() => UserPage(
+                  userId: widget.video.value.ownerId!,
+                ))
+            : null,
+      ].whereType<Widget>().toList(),
     );
   }
 
@@ -219,38 +238,50 @@ class _HomepageState extends State<Homepage> {
           return Container();
         }
         return PreloadPageView.builder(
-         itemCount: snapshot.data!.length,
+          itemCount: snapshot.data!.length,
           itemBuilder: (BuildContext context, int index) {
-           if(widget.video.value.id == null){
-             widget.video.value = snapshot.data![index];
-           }
-           if(index == widget.homeViewModel.lastIndex){
-             return VideoWidget(video: snapshot.data![widget.homeViewModel.lastIndex], autoPlay: true);
-           }else{
-            return VideoWidget(video: snapshot.data![index], autoPlay: false);}
+            if (widget.video.value.id == null) {
+              widget.video.value = snapshot.data![index];
+            }
+            if (index == widget.homeViewModel.lastIndex) {
+              return VideoWidget(
+                  video: snapshot.data![widget.homeViewModel.lastIndex],
+                  autoPlay: true);
+            } else {
+              return VideoWidget(video: snapshot.data![index], autoPlay: false);
+            }
           },
           controller: PreloadPageController(
             initialPage: widget.homeViewModel.lastIndex,
             keepPage: true,
           ),
-           preloadPagesCount: 7,
+          preloadPagesCount: 7,
           scrollDirection: Axis.vertical,
-         // pageSnapping: true,
+          // pageSnapping: true,
 
-          onPageChanged: (index) async{
-            widget.homeViewModel.lastIndex=index;
-           widget.video.value = snapshot.data![index];
-          //  setState(
-                   // ()async {
-              Get.find<VideoPlayerViewModel>(tag: snapshot.data![index].id).videoPlayerController.value.play();
-              if(index != 0){
-                Get.find<VideoPlayerViewModel>(tag: snapshot.data![index-1].id).videoPlayerController.value.pause();
-              }
+          onPageChanged: (index) async {
+            widget.homeViewModel.lastIndex = index;
+            widget.video.value = snapshot.data![index];
+            //  setState(
+            // ()async {
+            Get.find<VideoPlayerViewModel>(tag: snapshot.data![index].id)
+                .videoPlayerController
+                .value
+                .play();
+            if (index != 0) {
+              Get.find<VideoPlayerViewModel>(tag: snapshot.data![index - 1].id)
+                  .videoPlayerController
+                  .value
+                  .pause();
+            }
 
-              if(index != snapshot.data!.length-1){
-                Get.find<VideoPlayerViewModel>(tag: snapshot.data![index+1].id).videoPlayerController.value.pause();
-              }
-           // };
+            if (index != snapshot.data!.length - 1) {
+              Get.find<VideoPlayerViewModel>(tag: snapshot.data![index + 1].id)
+                  .videoPlayerController
+                  .value
+                  .pause();
+            }
+            // };
             //);
           },
         );
@@ -259,57 +290,71 @@ class _HomepageState extends State<Homepage> {
   }
 
   Widget _followingTab() {
-    return
-     (Get.find<AuthViewModel>()
-        .currentUser!
-        .isAnonymous!) ?Anonymous():
-      Container(
-      child: FutureBuilder<List<VideoModel>>(
-        future: VideoViewModel().getFollowingVideos(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError || !snapshot.hasData) {
-            return Container();
-          }
-          if(snapshot.data!.length ==0){
-            return suggestedTab();
-          }
-          return PreloadPageView.builder(
-            itemCount: snapshot.data!.length,
-            itemBuilder: (BuildContext context, int index) {
-              if(index==0){
-                widget.video.value = snapshot.data![0];
-              }
-              if(index == widget.homeViewModel.lastFollowingIndex){
-                return VideoWidget(video: snapshot.data![widget.homeViewModel.lastFollowingIndex], autoPlay: true);
-              }else{
-                return VideoWidget(video: snapshot.data![index], autoPlay: false);}
-            },
-            controller: PreloadPageController(
-              initialPage: widget.homeViewModel.lastFollowingIndex,
-              keepPage: true,
+    return (Get.find<AuthViewModel>().currentUser!.isAnonymous!)
+        ? Anonymous()
+        : Container(
+            child: FutureBuilder<List<VideoModel>>(
+              future: VideoViewModel().getFollowingVideos(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError || !snapshot.hasData) {
+                  return Container();
+                }
+                if (snapshot.data!.length == 0) {
+                  return suggestedTab();
+                }
+                return PreloadPageView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    if (index == 0) {
+                      widget.video.value = snapshot.data![0];
+                    }
+                    if (index == widget.homeViewModel.lastFollowingIndex) {
+                      return VideoWidget(
+                          video: snapshot
+                              .data![widget.homeViewModel.lastFollowingIndex],
+                          autoPlay: true);
+                    } else {
+                      return VideoWidget(
+                          video: snapshot.data![index], autoPlay: false);
+                    }
+                  },
+                  controller: PreloadPageController(
+                    initialPage: widget.homeViewModel.lastFollowingIndex,
+                    keepPage: true,
+                  ),
+                  preloadPagesCount: 7,
+                  scrollDirection: Axis.vertical,
+                  pageSnapping: true,
+                  onPageChanged: (index) {
+                    widget.homeViewModel.lastFollowingIndex = index;
+                    widget.video.value = snapshot.data![index];
+                    //  setState(()async {
+                    Get.find<VideoPlayerViewModel>(
+                            tag: snapshot.data![index].id)
+                        .videoPlayerController
+                        .value
+                        .play();
+                    if (index != 0) {
+                      Get.find<VideoPlayerViewModel>(
+                              tag: snapshot.data![index - 1].id)
+                          .videoPlayerController
+                          .value
+                          .pause();
+                    }
+
+                    if (index != snapshot.data!.length - 1) {
+                      Get.find<VideoPlayerViewModel>(
+                              tag: snapshot.data![index + 1].id)
+                          .videoPlayerController
+                          .value
+                          .pause();
+                    }
+                    // });
+                  },
+                );
+              },
             ),
-            preloadPagesCount: 7,
-            scrollDirection: Axis.vertical,
-            pageSnapping: true,
-
-            onPageChanged: (index) {
-              widget.homeViewModel.lastFollowingIndex=index;
-              widget.video.value = snapshot.data![index];
-            //  setState(()async {
-                Get.find<VideoPlayerViewModel>(tag: snapshot.data![index].id).videoPlayerController.value.play();
-                if(index != 0){
-                  Get.find<VideoPlayerViewModel>(tag: snapshot.data![index-1].id).videoPlayerController.value.pause();
-                }
-
-                if(index != snapshot.data!.length-1){
-                  Get.find<VideoPlayerViewModel>(tag: snapshot.data![index+1].id).videoPlayerController.value.pause();
-                }
-             // });
-            },
           );
-        },
-      ),
-    );
   }
 
   Widget _postsTab() {

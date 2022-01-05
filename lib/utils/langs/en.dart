@@ -93,6 +93,11 @@ const Map<String, String> en = {
   'Welcome to Smile Mobile App':'Welcome to Smile Mobile App',
   'You can find Funny Videos or Posts':'You can find Funny Videos or Posts',
   'and You can Share your videos or posts': 'and You can Share your videos or posts',
+  'Share':'Share',
+  'Delete Video from Device':'Delete Video from Device',
+'Video Deleted successfully':'Video Deleted successfully',
+  'Share Video Link':'Share Video Link',
+  'Save then Share Video':'Save then Share Video',
 
 
 

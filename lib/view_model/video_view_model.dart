@@ -57,6 +57,12 @@ class VideoViewModel extends GetxController {
     Get.find<MainNavigatorViewModel>().change(ProfilePage());
     Get.offAll(MainView());
   }
+deleteVideo({required String videoId}){
+  videoFireStore.deleteVideo(videoId: videoId);
+}
+  Future<String> downloadVideo({required VideoModel video}) async {
+    return FireStorageService().downloadVideo(video);
+  }
 
   reportVideo({required String videoId, required String reason}) {
     ReportModel report = ReportModel(

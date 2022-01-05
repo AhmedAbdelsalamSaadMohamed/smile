@@ -75,6 +75,9 @@ class PostViewModel extends GetxController {
     });
     Get.back();
   }
+  deletePost({required String postId}){
+    PostFireStore().deletePost(postId);
+  }
 
   loveOrNotPost(String postId, bool love) {
     if (love) {

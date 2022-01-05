@@ -33,7 +33,7 @@ class CommentButton extends StatelessWidget {
         },
         icon: const Icon(
           Icons.mode_comment,
-          size: 50,
+          size: 40,
           color: Colors.white,
         ));
   }
