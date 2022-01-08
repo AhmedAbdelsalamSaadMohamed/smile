@@ -134,52 +134,52 @@ class _CustomTextFormFieldWidgetState extends State<CustomTextFormFieldWidget> {
 
   nameValidator(String? value) {
     if (value == '' || value == null) {
-      validationResult += 'Field is required\n'.tr;
+      validationResult += 'Field is required'.tr+'\n';
     }
   }
 
   newEmailValidator(String? value) {
     if (value == '' || value == null) {
-      validationResult += 'Field is required\n'.tr;
+      validationResult += 'Field is required'.tr+'\n';
     } else {
       if (!RegExp(
               r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
           .hasMatch(value)) {
-        validationResult += 'Enter valid email\n'.tr;
+        validationResult += 'Enter valid email'.tr+'\n';
       } else if (_isExist) {
-        validationResult += 'this Email is Exist\n'.tr;
+        validationResult += 'this Email is Exist'.tr+'\n';
       }
     }
   }
 
   newUsernameValidator(String? value) {
     if (value == '' || value == null) {
-      validationResult += 'Field is required\n'.tr;
+      validationResult += 'Field is required'.tr+'\n';
     } else if (!RegExp(r'^@').hasMatch(value)) {
-      validationResult += 'Username Must Start by "@"\n'.tr;
+      validationResult += 'Username Must Start by "@"'.tr+'\n';
     } else if (value.length < 5) {
-      validationResult += 'username length at least 5\n'.tr;
+      validationResult += 'username length at least 5'.tr+'\n';
     } else {
       if (_isExist) {
-        validationResult += 'username is Exist\n'.tr;
+        validationResult += 'username is Exist'.tr+'\n';
       }
     }
   }
 
   newPasswordValidator(String? value) {
     if (value == '' || value == null) {
-      validationResult += 'Field is required\n'.tr;
+      validationResult += 'Field is required'.tr+'\n';
     } else if (value.length < 8) {
-      validationResult += 'password length at least 8\n'.tr;
+      validationResult += 'password length at least 8'.tr+'\n';
     } else {
       if (!value.contains(RegExp(r'[A-Z]'))) {
-        validationResult += 'password must has capital litter\n'.tr;
+        validationResult += 'password must has capital letter'.tr+'\n';
       }
       if (!value.contains(RegExp(r'[a-z]'))) {
-        validationResult += 'password must has small litter\n'.tr;
+        validationResult += 'password must has small letter'.tr+'\n';
       }
       if (!value.contains(RegExp(r'[0-9]'))) {
-        validationResult += 'password must has Numeric Number\n'.tr;
+        validationResult += 'password must has Numeric Number'.tr+'\n';
       }
       // if (!value.contains(
       //     RegExp(r'\.@#$!&*-+/\\?_-'))) {
@@ -191,23 +191,23 @@ class _CustomTextFormFieldWidgetState extends State<CustomTextFormFieldWidget> {
 
   usernameOrEmailValidator(String? value) {
     if (value == '' || value == null) {
-      validationResult += 'Field is required\n'.tr;
+      validationResult += 'Field is required'.tr+'\n';
     } else {
       if (RegExp(r'^@').hasMatch(value)) {
         // match username
         if (!_isExist) {
-          validationResult += 'Username not Exist\n'.tr;
+          validationResult += 'Username not Exist'.tr+'\n';
         }
       } else if (!RegExp(
               r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
           .hasMatch(value)) {
         validationResult +=
-            'Username must Start with \'@\' Or Enter valid email\n'.tr;
+            'Username must Start with \'@\' Or Enter valid email'.tr+'\n';
       } else {
         // match email
         print(_isExist);
         if (!_isExist) {
-          validationResult += 'Email  not Exist\n'.tr;
+          validationResult += 'Email  not Exist'.tr+'\n';
         }
       }
     }

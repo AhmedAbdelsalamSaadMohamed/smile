@@ -68,5 +68,7 @@ ThemeData darkTheme = ThemeData.dark().copyWith(
     fillColor: _color2,
     counterStyle: TextStyle(color: _color2)
   ),
+  progressIndicatorTheme: ProgressIndicatorThemeData(color: _color2,),
+  snackBarTheme: SnackBarThemeData(actionTextColor: _color2),
 
 );

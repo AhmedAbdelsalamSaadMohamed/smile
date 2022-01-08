@@ -88,3 +88,6 @@ const String fieldReportReason = 'reason';
 const String fieldReportVideoId='video_id';
 const String fieldReportUserId = 'UserId';
 const String fieldReportTime ='report_time';
+
+/// notifications
+const String collectionNotifications = 'notifications';

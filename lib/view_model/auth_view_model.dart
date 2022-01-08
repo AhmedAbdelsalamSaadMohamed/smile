@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smile/model/user_model.dart';
 import 'package:smile/services/firebase/firebase_service.dart';
@@ -17,14 +18,17 @@ class AuthViewModel extends GetxController {
   final UserFireStore _userFireStore = UserFireStore();
 
   signInAnonymously() {
+    _showSnackBar();
     _fireBase.anonymousSignIn().then((user) {
       signIn(user);
     });
   }
 
   createUser({required String email, required String password}) {
+    _showSnackBar();
     _fireBase.createUser(email: email, password: password).then((user) {
       if (user != null) {
+        Get.closeAllSnackbars();
         Get.to(VerifyEmailPage(
           user: user,
         ));
@@ -34,6 +38,7 @@ class AuthViewModel extends GetxController {
 
   signInByEmailOrUsername(
       {required String emailOrUsername, required String password}) {
+    _showSnackBar();
     if (RegExp(r'^@').hasMatch(emailOrUsername)) {
       _userFireStore.getUserByUsername(username: emailOrUsername).then((user) =>
           _signInByEmailAndPassword(email: user.email!, password: password));
@@ -45,18 +50,30 @@ class AuthViewModel extends GetxController {
   _signInByEmailAndPassword({required String email, required String password}) {
     _fireBase
         .emailAndPasswordSignIn(email: email, password: password)
-        .then((user) {
-      signIn(user);
+        .then((result) {
+          if(result.runtimeType == String){
+            Get.closeAllSnackbars();
+            Get.rawSnackbar(
+              message: result,
+              snackPosition: SnackPosition.TOP,
+              duration: Duration(seconds: 10),
+            );
+          }else{
+            signIn(result);
+          }
+
     });
   }
 
   signInByGoogle() {
+    _showSnackBar();
     _fireBase.googleSignIn().then((user) {
       signIn(user);
     });
   }
 
   signInByFacebook() {
+    _showSnackBar();
     if (_fireBase.facebookSignIn() != null)
       _fireBase.facebookSignIn().then((user) {
         //signIn(user);
@@ -66,6 +83,7 @@ class AuthViewModel extends GetxController {
   signIn(UserModel? user) async {
     if (user == null) {
     } else {
+      Get.closeAllSnackbars();
       currentUser = user;
       if (user.isAnonymous!) {
         _sharedPreferences.addUser(user);
@@ -93,11 +111,10 @@ class AuthViewModel extends GetxController {
   signOut() {
     _sharedPreferences.deleteUser().then((done) {
       if (done) {
-        Get.to(SignInPage());
+        Get.offAll(SignInPage());
       }
     });
   }
-
   Future<bool> isSigned() async {
     UserModel? user = await _sharedPreferences.getUser();
     if (user == null) {
@@ -115,4 +132,21 @@ class AuthViewModel extends GetxController {
   Future<bool> usernameIsExist({required String username}) {
     return UserFireStore().usernameIsExist(username: username);
   }
+}
+
+_showSnackBar(){
+  Get.rawSnackbar(
+    snackPosition: SnackPosition.TOP,
+    duration: Duration(minutes: 3),
+    messageText: Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text('Signing In'),
+          CircularProgressIndicator(),
+        ],
+      ),
+    ),
+  );
 }

@@ -17,7 +17,7 @@ class SignUpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Sign Up'),
+          title: Text('Sign Up'.tr),
         ),
         body: ListView(
           children: [
@@ -35,7 +35,7 @@ class SignUpPage extends StatelessWidget {
                 child: Column(
                   children: [
                     CustomTextFormFieldWidget(
-                        hint: 'Email ',
+                        hint: 'Email'.tr,
                         validator: Validator.newEmail,
                         value: email,
                         onSaved: (val) {
@@ -46,7 +46,7 @@ class SignUpPage extends StatelessWidget {
                         }),
                     SizedBox(height: 16),
                     CustomTextFormFieldWidget(
-                        hint: 'PassWord ',
+                        hint: 'PassWord'.tr,
                         isPassword: true,
                         validator: Validator.newPassword,
                         value: password,
@@ -70,7 +70,7 @@ class SignUpPage extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            'Sign Up',
+                            'Sign Up'.tr,
                             style: TextStyle(fontSize: 24),
                           ),
                         ),),
@@ -78,7 +78,7 @@ class SignUpPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [TextButton(onPressed: (){
                         Get.to(SignInPage(), transition: Transition.leftToRightWithFade);
-                      }, child: Text('Sing In', style: TextStyle(color:Colors.blue),))],
+                      }, child: Text('Sing In'.tr, style: TextStyle(color:Colors.blue),))],
                     ),
                   ],
                 ),
@@ -91,7 +91,7 @@ class SignUpPage extends StatelessWidget {
                     child: Divider(
                   thickness: 2,
                 )),
-                Text("OR"),
+                Text("OR".tr),
                 Expanded(
                     child: Divider(
                   thickness: 2,

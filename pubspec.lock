@@ -28,7 +28,7 @@ packages:
       name: archive
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.6"
+    version: "3.1.8"
   args:
     dependency: transitive
     description:
@@ -70,7 +70,7 @@ packages:
       name: camera_platform_interface
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.1"
+    version: "2.1.2"
   camera_web:
     dependency: transitive
     description:
@@ -204,6 +204,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.2"
+  firebase:
+    dependency: "direct main"
+    description:
+      name: firebase
+      url: "https://pub.dev"
+    source: hosted
+    version: "9.0.2"
   firebase_auth:
     dependency: "direct main"
     description:
@@ -246,6 +253,41 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.3"
+  firebase_database:
+    dependency: "direct main"
+    description:
+      name: firebase_database
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.2.2"
+  firebase_database_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_database_platform_interface
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1+1"
+  firebase_messaging:
+    dependency: "direct main"
+    description:
+      name: firebase_messaging
+      url: "https://pub.dev"
+    source: hosted
+    version: "11.2.5"
+  firebase_messaging_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_messaging_platform_interface
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.5"
+  firebase_messaging_web:
+    dependency: transitive
+    description:
+      name: firebase_messaging_web
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.6"
   firebase_storage:
     dependency: "direct main"
     description:
@@ -353,7 +395,7 @@ packages:
     source: sdk
     version: "0.0.0"
   font_awesome_flutter:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: font_awesome_flutter
       url: "https://pub.dev"
@@ -610,7 +652,7 @@ packages:
       name: plugin_platform_interface
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.2"
+    version: "2.1.0"
   preload_page_view:
     dependency: "direct main"
     description:

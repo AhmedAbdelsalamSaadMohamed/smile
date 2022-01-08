@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:smile/view/pages/home.dart';
@@ -8,6 +9,7 @@ class MainNavigatorViewModel extends GetxController{
   Widget currentPage = Homepage();
   final SettingsViewModel __themeViewModel = Get.put(SettingsViewModel());
   change(Widget newPage){
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
     //Get.find<VideoPlayerViewModel>().videoPlayerController.pause();
     currentPage = newPage;
     //_themeViewModel.onNavigate(newPage.runtimeType == Homepage().runtimeType);

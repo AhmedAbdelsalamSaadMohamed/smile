@@ -31,7 +31,7 @@ class SignInPage extends StatelessWidget {
                 child: Column(
                   children: [
                     CustomTextFormFieldWidget(
-                        hint: 'Email or Username',
+                        hint: 'Email or Username'.tr,
                         validator: Validator.usernameOrEmail,
                         value: email,
                         onSaved: (val) {
@@ -42,7 +42,7 @@ class SignInPage extends StatelessWidget {
                         }),
                     SizedBox(height: 16),
                     CustomTextFormFieldWidget(
-                        hint: 'PassWord ',
+                        hint: 'PassWord'.tr,
                         isPassword: true,
                         validator: Validator.password,
                         value: password,
@@ -67,7 +67,7 @@ class SignInPage extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            'Sign In',
+                            'Sign In'.tr,
                             style: TextStyle(fontSize: 24),
                           ),
                         )),
@@ -75,7 +75,7 @@ class SignInPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [TextButton(onPressed: (){
                         Get.to(SignUpPage(), transition: Transition.rightToLeftWithFade);
-                      }, child: Text('Sing Up', style: TextStyle(color:Colors.blue),))],
+                      }, child: Text('Sing Up'.tr, style: TextStyle(color:Colors.blue),))],
                     )
                   ],
                 ),
@@ -88,7 +88,7 @@ class SignInPage extends StatelessWidget {
                     child: Divider(
                   thickness: 2,
                 )),
-                Text("OR"),
+                Text("OR".tr),
                 Expanded(
                     child: Divider(
                   thickness: 2,

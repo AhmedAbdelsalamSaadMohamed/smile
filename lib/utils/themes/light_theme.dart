@@ -67,6 +67,9 @@ ThemeData lightTheme = ThemeData.light().copyWith(
     ),
       counterStyle: TextStyle(color: _color2)
   ),
+  progressIndicatorTheme: ProgressIndicatorThemeData(color: _color2,),
+  snackBarTheme: SnackBarThemeData(actionTextColor: _color2),
+  textTheme: TextTheme()
 );
 
 ButtonStyle buttonStyle() {

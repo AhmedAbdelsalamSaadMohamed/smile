@@ -149,7 +149,7 @@ class FollowerWidget extends StatelessWidget {
             return const ListTile(
               leading: ProfileCircleAvatar(
                 imageUrl: '',
-                radius: 50,
+                radius: 30
               ),
             );
           } else {
@@ -211,7 +211,7 @@ class FollowingWidget extends StatelessWidget {
             return const ListTile(
               leading: ProfileCircleAvatar(
                 imageUrl: '',
-                radius: 50,
+                radius: 30
               ),
             );
           } else {

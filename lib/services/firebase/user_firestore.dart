@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:smile/model/user_model.dart';
 import 'package:smile/utils/constants.dart';
@@ -15,7 +16,7 @@ class UserFireStore {
         } else {
           usersCollection.doc(user.id).set(
                 user.toJson(),
-              );
+              ).then((_) => _setToken(userId: user.id!));
         }
       });
     }
@@ -24,13 +25,23 @@ class UserFireStore {
   Future<bool> userIsExist(String userId) async {
     return await usersCollection.doc(userId).get().then((value) {
       if (value.exists) {
+        _setToken(userId: userId);
         return true;
       } else {
         return false;
       }
     });
   }
-
+  _setToken({required String userId}) {
+    FirebaseMessaging.instance.getToken().then((token) {
+      FirebaseFirestore.instance
+          .collection(collectionUsers)
+          .doc(userId)
+          .collection('tokens')
+          .doc(token)
+          .set({'token': token});
+    });
+  }
   Future<bool> emailIsExist({required String email}) {
     return usersCollection
         .where(fieldUserEmail, isEqualTo: email)

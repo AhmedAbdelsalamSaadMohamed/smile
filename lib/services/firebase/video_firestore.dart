@@ -17,9 +17,11 @@ class VideoFireStore {
       return value.update(video.toJson()).then((_) => value.id);
     });
   }
-  deleteVideo({required String videoId}){
+
+  deleteVideo({required String videoId}) {
     videosCollection.doc(videoId).delete();
   }
+
   Future<VideoModel> getVideo({required String videoId}) {
     return videosCollection.where(fieldVideoId, isEqualTo: videoId).get().then(
         (value) => VideoModel.fromJson(
@@ -28,7 +30,7 @@ class VideoFireStore {
 
   getForYouVideos() {}
 
-   //Future<List<Stream<List<VideoModel>>>>
+  //Future<List<Stream<List<VideoModel>>>>
   //  getFollowingVideos() {
   //   List<VideoModel> videos = [];
   //  videosCollection.where(fieldVideoOwnerId,).get();
@@ -36,6 +38,7 @@ class VideoFireStore {
 
   Stream<List<VideoModel>> getUserVideos(String userId) {
     return videosCollection
+        .orderBy(fieldVideoTime, descending: true)
         .where(fieldVideoOwnerId, isEqualTo: userId)
         .snapshots()
         .map((value) => [
@@ -45,7 +48,10 @@ class VideoFireStore {
   }
 
   Future<List<VideoModel>> getAllVideos() {
-    return videosCollection.orderBy(fieldVideoTime).get().then((value) {
+    return videosCollection
+        .orderBy(fieldVideoTime, descending: true)
+        .get()
+        .then((value) {
       return [
         ...value.docs
             .map((e) => VideoModel.fromJson(e.data() as Map<String, dynamic>))
