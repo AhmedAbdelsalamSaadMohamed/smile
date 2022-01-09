@@ -54,6 +54,7 @@ const String tableComments = 'comments';
 const String fieldCommentId = 'id';
 const String fieldCommentTime = 'time';
 const String fieldCommentOwner = 'owner';
+const String fieldCommentVideoId='video_id';
 const String fieldCommentText = 'text';
 const String fieldCommentPostId = 'postId';
 const String fieldCommentImage = 'image';
@@ -91,3 +92,15 @@ const String fieldReportTime ='report_time';
 
 /// notifications
 const String collectionNotifications = 'notifications';
+const String fieldNotificationId = 'id';
+const String fieldNotificationAction = 'action';
+const String fieldNotificationUserId = 'user_id';
+const String fieldNotificationTime = 'time';
+const String fieldNotificationIsNew = 'new';
+const String fieldNotificationIsSeen = 'seen';
+const String fieldNotificationVideoId= 'video_id';
+const String fieldNotificationPostId = 'post_id';
+const String fieldNotificationVideoCommentId = 'video_comment_id';
+const String fieldNotificationPostCommentId = 'post_comment_id';
+const String fieldNotificationVideoReplyId = 'video_reply_id';
+const String fieldNotificationPostReplyId = 'post_reply_id';

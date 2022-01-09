@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 
-const Color _color1 = Colors.white;
+const Color main1 = Color.fromRGBO(250, 250, 250, 1);
+const Color main2 = Color.fromRGBO(200, 200, 200, 1);
+// const Color _color1 = Colors.white;
 const Color _color2 = Colors.black;
 const Color _primary = Color.fromRGBO(225, 51, 1, 1);
-const Color background2 = Colors.black26;
+// const Color background2 = Colors.black26;
 const Color onBackground2 = Colors.black54;
 ThemeData lightTheme = ThemeData.light().copyWith(
   primaryColor: _primary,
   hintColor: _color2,
   focusColor: _primary,
   hoverColor: _primary,
+   backgroundColor: main2,
   colorScheme: const ColorScheme.light().copyWith(
-    background: _color1,
+    background: main1,
     onBackground: _color2,
-    primary: _color1,
     secondary: _color2,
   ),
   tabBarTheme: const TabBarTheme(
@@ -24,7 +26,7 @@ ThemeData lightTheme = ThemeData.light().copyWith(
         insets: EdgeInsets.all(2),
       )),
   appBarTheme: const AppBarTheme(
-    backgroundColor: _color1,
+    backgroundColor: main1,
     foregroundColor: _color2,
     elevation: 0,
     centerTitle: true,
@@ -56,20 +58,34 @@ ThemeData lightTheme = ThemeData.light().copyWith(
   textButtonTheme: TextButtonThemeData(
     style: buttonStyle(),
   ),
-  listTileTheme: const ListTileThemeData(),
   inputDecorationTheme: const InputDecorationTheme(
-    border: OutlineInputBorder(
-      borderRadius: BorderRadius.all(Radius.circular(20.0)),
-    ),
-    focusedBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: _primary),
-      borderRadius: BorderRadius.all(Radius.circular(20.0)),
-    ),
-      counterStyle: TextStyle(color: _color2)
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: _primary),
+        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+      ),
+      counterStyle: TextStyle(color: _color2)),
+  progressIndicatorTheme: ProgressIndicatorThemeData(
+    color: _color2,
   ),
-  progressIndicatorTheme: ProgressIndicatorThemeData(color: _color2,),
   snackBarTheme: SnackBarThemeData(actionTextColor: _color2),
-  textTheme: TextTheme()
+  textTheme: TextTheme(
+    bodyText1: TextStyle(),
+    bodyText2: TextStyle(),
+    headline1: TextStyle(),
+    headline2: TextStyle(),
+    caption: TextStyle(),
+    button: TextStyle(),
+    headline3: TextStyle(),
+    headline4: TextStyle(),
+    headline5: TextStyle(),
+    headline6: TextStyle(),
+    overline: TextStyle(),
+    subtitle1: TextStyle(),
+    subtitle2: TextStyle(),
+  ).apply(displayColor: _color2, bodyColor: _color2, decorationColor: _color2),
 );
 
 ButtonStyle buttonStyle() {

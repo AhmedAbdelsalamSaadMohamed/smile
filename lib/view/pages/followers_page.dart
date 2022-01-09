@@ -40,11 +40,11 @@ class FollowersPage extends StatelessWidget {
                   builder: (context, snapshot) {
                     if (snapshot.hasError || !snapshot.hasData) {
                       return Tab(
-                        text: '${snapshot.data} ' 'Followers'.tr,
+                        text: '${snapshot.data} ' +'Followers'.tr,
                       );
                     }
                     return Tab(
-                      text: '${snapshot.data} ' 'Followers'.tr,
+                      text: '${snapshot.data} '+ 'Followers'.tr,
                     );
                   }),
               Tab(

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:smile/model/comment_model.dart';
+import 'package:smile/model/reply_model.dart';
 import 'package:smile/model/video_model.dart';
 import 'package:smile/services/firebase/firestorage_service.dart';
 import 'package:smile/utils/constants.dart';
@@ -59,93 +60,7 @@ class VideoFireStore {
     });
   }
 
-  /// ////////////////////////comments
-  ///
-  //final CollectionReference commentsReference;
 
-  Future<String> addComment(
-      {required CommentModel newComment, required String videoId}) async {
-    return await FirebaseFirestore.instance
-        .collection(collectionVideos)
-        .doc(videoId)
-        .collection(tableComments)
-        .add(newComment.toJson())
-        .then((value) => value.id);
-  }
-
-  Future<List<CommentModel>?> getComments({required String videoId}) async {
-    return [
-      ...await FirebaseFirestore.instance
-          .collection(collectionVideos)
-          .doc(videoId)
-          .collection(tableComments)
-          .get()
-          .then((value) => value.docs
-              .map((e) => CommentModel.formFire(map: e.data(), id: e.id)))
-    ];
-  }
-
-  Future<CommentModel> getComment(
-      {required String commentId, required String videoId}) async {
-    return await FirebaseFirestore.instance
-        .collection(collectionVideos)
-        .doc(videoId)
-        .collection(tableComments)
-        .doc(commentId)
-        .get()
-        .then((value) => CommentModel.formFire(
-            map: value.data() as Map<String, dynamic>, id: value.id));
-  }
-
-  Stream<QuerySnapshot<Map<String, dynamic>>> getCommentsStream(
-      {required String videoId}) {
-    return FirebaseFirestore.instance
-        .collection(collectionVideos)
-        .doc(videoId)
-        .collection(tableComments)
-        .orderBy(fieldCommentTime)
-        .snapshots();
-  }
-
-  Future<List<dynamic>> getCommentLovers(
-      {required String commentId, required String videoId}) async {
-    return await FirebaseFirestore.instance
-        .collection(collectionVideos)
-        .doc(videoId)
-        .collection(tableComments)
-        .doc(commentId)
-        .get()
-        .then((value) {
-      return (value.data() as Map<String, dynamic>)[fieldCommentLoves]
-          as List<dynamic>;
-    });
-  }
-
-  Future loveComment(
-      {required String commentId, required String videoId}) async {
-    await FirebaseFirestore.instance
-        .collection(collectionVideos)
-        .doc(videoId)
-        .collection(tableComments)
-        .doc(commentId)
-        .update({
-      fieldCommentLoves:
-          FieldValue.arrayUnion([Get.find<AuthViewModel>().currentUser!.id])
-    });
-  }
-
-  Future notLoveComment(
-      {required String commentId, required String videoId}) async {
-    await FirebaseFirestore.instance
-        .collection(collectionVideos)
-        .doc(videoId)
-        .collection(tableComments)
-        .doc(commentId)
-        .update({
-      fieldCommentLoves:
-          FieldValue.arrayRemove([Get.find<AuthViewModel>().currentUser!.id])
-    });
-  }
 
   /// reactions  //////////////////////////////////////////////////////////////////////////////
 

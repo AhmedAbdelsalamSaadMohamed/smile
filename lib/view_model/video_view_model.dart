@@ -57,9 +57,11 @@ class VideoViewModel extends GetxController {
     Get.find<MainNavigatorViewModel>().change(ProfilePage());
     Get.offAll(MainView());
   }
-deleteVideo({required String videoId}){
-  videoFireStore.deleteVideo(videoId: videoId);
-}
+
+  deleteVideo({required String videoId}) {
+    videoFireStore.deleteVideo(videoId: videoId);
+  }
+
   Future<String> downloadVideo({required VideoModel video}) async {
     return FireStorageService().downloadVideo(video);
   }
@@ -125,27 +127,8 @@ deleteVideo({required String videoId}){
     FavoritesFireStore().removeVideo(userId: currentUser.id!, videoId: videoId);
   }
 
-  ///            comments
-  ///
-  Future publishComment(
-      {required String videoId, required text, imageUrl, videoUrl}) async {
-    print(text);
-    CommentModel newComment = CommentModel(
-        owner: Get.find<AuthViewModel>().currentUser!.id,
-        time: Timestamp.now(),
-        postId: videoId,
-        text: text,
-        image: imageUrl,
-        video: videoUrl);
-    await VideoFireStore().addComment(newComment: newComment, videoId: videoId)
-        // .then(
-        // (value) => NotificationViewModel().addNotification(
-        //     action: NotificationModel.comment,
-        //     postId: newComment.postId!,
-        //     time: newComment.time!,
-        //     commentId: value))
-        ;
-  }
+
+
 
   ///            reactions
 
@@ -159,14 +142,27 @@ deleteVideo({required String videoId}){
         reactions.values.firstWhere((element) => element.name == react));
   }
 
-  Stream<List<reactions>> getVideoReacts({required String videoId}) {
-    return videoFireStore.getVideoReacts(videoId: videoId).map((event) => [
-          ...[
-            ...event.map((reactStr) => reactions.values
-                .firstWhere((element) => element.name == reactStr))
-          ].where(
-              (element) => element != reactions.non) // remove non from reacts
-        ]);
+  Stream<Map<reactions,int>> getVideoReacts({required String videoId}) {
+    return videoFireStore.getVideoReacts(videoId: videoId).map((event){
+      Map<reactions,int> result = {
+        reactions.angry:event.where((element) => element == reactions.angry.name ).length,
+        reactions.sad:event.where((element) => element == reactions.sad.name ).length,
+        reactions.non:event.where((element) => element == reactions.non.name ).length,
+        reactions.smile:event.where((element) => element == reactions.smile.name ).length,
+        reactions.haha:event.where((element) => element == reactions.haha.name ).length,
+      };
+      return result;
+
+    });
+
+
+    // return videoFireStore.getVideoReacts(videoId: videoId).map((event) => [
+    //       ...[
+    //         ...event.map((reactStr) => reactions.values
+    //             .firstWhere((element) => element.name == reactStr))
+    //       ].where(
+    //           (element) => element != reactions.non) // remove non from reacts
+    //     ]);
   }
 
   Stream<int> getAllReactsCount({required String videoId}) {

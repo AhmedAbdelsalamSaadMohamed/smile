@@ -8,6 +8,7 @@ import 'package:smile/view/pages/profile_page.dart';
 import 'package:smile/view/widgets/up_route.dart';
 import 'package:smile/view_model/auth_view_model.dart';
 import 'package:smile/view_model/main_navigator_view_model.dart';
+import 'package:smile/view_model/notification_view_model.dart';
 
 class MainNavigatorBar extends StatelessWidget {
   const MainNavigatorBar({Key? key}) : super(key: key);
@@ -70,14 +71,45 @@ class MainNavigatorBar extends StatelessWidget {
             IconButton(
                 padding: EdgeInsets.zero,
                 onPressed: () {
-                  mainNavigator.change(const NotificationsPage());
+                  mainNavigator.change( NotificationsPage());
                 },
-                icon: navigateIcon(
-                  context,
-                  mainNavigator.currentPage.runtimeType ==
-                          const NotificationsPage().runtimeType
-                      ? Icons.notifications
-                      : Icons.notifications_outlined,
+                icon: Stack(
+                  children: [
+                    navigateIcon(
+                      context,
+                      mainNavigator.currentPage.runtimeType ==
+                               NotificationsPage().runtimeType
+                          ? Icons.notifications
+                          : Icons.notifications_outlined,
+                    ),
+                    StreamBuilder<int>(
+                        stream: NotificationViewModel().newNotificationsCount(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasError ||
+                              !snapshot.hasData ||
+                              snapshot.data! == 0) {
+                            return Container();
+                          }
+                          String count = snapshot.data! > 99
+                              ? '+99'
+                              : snapshot.data!.toString();
+                          return Positioned(
+                              top: 0,
+                              right: 0,
+                              child: Container(
+                                child: Center(
+                                    child: Text(
+                                  count,
+                                  style: TextStyle(fontSize: 10),
+                                )),
+                                width: 20,
+                                height: 20,
+                                decoration: BoxDecoration(
+                                    color: Theme.of(context).primaryColor,
+                                    borderRadius: BorderRadius.circular(10)),
+                              ));
+                        }),
+                  ],
                 )),
             IconButton(
                 padding: EdgeInsets.zero,

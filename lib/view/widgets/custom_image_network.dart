@@ -9,7 +9,7 @@ class CustomImageNetwork extends StatelessWidget {
     return Image.network(
       src,
       errorBuilder: (context, error, stackTrace) =>
-          Image.asset('assets/images/image_placeholder.png'),
+          Image.asset('assets/images/image_placeholder.jpg'),
       fit: BoxFit.contain,
     );
   }

@@ -31,7 +31,11 @@ exports.newVideoNotificationFun = functions.firestore.document("videos/{videoId}
       // eslint-disable-next-line max-len
       body: description ? (description.length <= 100 ? description : description.substring(0, 97) + "...") : "",
       icon: owner.profile_url,
-      click_action: "https://${process.env.GCLOUD_PROJECT}.firebaseapp.com",
+      click_action: "FLUTTER_NOTIFICATION_CLICK",
+    },
+    data: {
+      "id": snapshot.id,
+      "action": "upload_video",
     },
   };
     // eslint-disable-next-line max-len

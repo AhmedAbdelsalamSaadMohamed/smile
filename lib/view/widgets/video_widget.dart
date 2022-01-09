@@ -91,8 +91,7 @@ class _VideoWidgetState extends State<VideoWidget> {
                 playOrPauseVideo();
               });
             },
-            child:
-            Stack(
+            child: Stack(
               fit: StackFit.expand,
               children: [
                 FittedBox(
@@ -310,12 +309,154 @@ class _VideoWidgetState extends State<VideoWidget> {
                                 videoId: widget.video.id!),
                             builder: (context, snapshot) {
                               if (snapshot.hasError || !snapshot.hasData) {
-                                return const ReactButton(
+                                return ReactButton(
                                   react: reactions.non,
+                                  onTab: () {},
+                                  onLongPress: () {},
                                 );
                               }
                               return ReactButton(
                                 react: snapshot.data!,
+                                onTab: () {
+                                  videoViewModel.reactVideo(
+                                      videoId: widget.video.id!,
+                                      reaction: reactions.smile);
+                                  _showAnimatedReact();
+                                },
+                                onLongPress: () {
+                                  Get.dialog(Dialog(
+                                    backgroundColor: Colors.transparent,
+                                    child: SizedBox(
+                                      height: 80,
+                                      width: Get.width,
+                                      child: Center(
+                                          child:
+                                              StreamBuilder<
+                                                      Map<reactions, int>>(
+                                                  stream: videoViewModel
+                                                      .getVideoReacts(
+                                                          videoId:
+                                                              widget.video.id!),
+                                                  builder: (context, snapshot) {
+                                                    if(snapshot.hasError || !snapshot.hasData){
+                                                      return Container();
+                                                    }
+                                                    return Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceAround,
+                                                      children: [
+                                                        Column(
+                                                          children: [
+                                                            GestureDetector(
+                                                                onTap: () {
+                                                                  videoViewModel.reactVideo(
+                                                                      videoId: widget
+                                                                          .video
+                                                                          .id!,
+                                                                      reaction:
+                                                                          reactions
+                                                                              .angry);
+                                                                  Get.back();
+                                                                },
+                                                                child: SizedBox(
+                                                                    height: 50,
+                                                                    child: ReactionImage(
+                                                                        react: reactions
+                                                                            .angry))),
+                                                            Text(snapshot.data![reactions.angry].toString())
+                                                          ],
+                                                        ),
+                                                        Column(
+                                                          children: [
+                                                            GestureDetector(
+                                                                onTap: () {
+                                                                  videoViewModel.reactVideo(
+                                                                      videoId: widget
+                                                                          .video
+                                                                          .id!,
+                                                                      reaction:
+                                                                          reactions
+                                                                              .sad);
+                                                                  Get.back();
+                                                                },
+                                                                child: SizedBox(
+                                                                    height: 50,
+                                                                    child: ReactionImage(
+                                                                        react: reactions
+                                                                            .sad))),
+                                                            Text(snapshot.data![reactions.sad].toString())
+                                                          ],
+                                                        ),
+                                                        Column(
+                                                          children: [
+                                                            GestureDetector(
+                                                                onTap: () {
+                                                                  videoViewModel.reactVideo(
+                                                                      videoId: widget
+                                                                          .video
+                                                                          .id!,
+                                                                      reaction:
+                                                                          reactions
+                                                                              .non);
+                                                                  Get.back();
+                                                                },
+                                                                child: SizedBox(
+                                                                    height: 50,
+                                                                    child: ReactionImage(
+                                                                        react: reactions
+                                                                            .non))),
+                                                            Text('')
+                                                          ],
+                                                        ),
+                                                        Column(
+                                                          children: [
+                                                            GestureDetector(
+                                                                onTap: () {
+                                                                  videoViewModel.reactVideo(
+                                                                      videoId: widget
+                                                                          .video
+                                                                          .id!,
+                                                                      reaction:
+                                                                          reactions
+                                                                              .smile);
+                                                                  Get.back();
+                                                                },
+                                                                child: SizedBox(
+                                                                    height: 50,
+                                                                    child: ReactionImage(
+                                                                        react: reactions
+                                                                            .smile))),
+                                                            Text(snapshot.data![reactions.smile].toString())
+                                                          ],
+                                                        ),
+                                                        Column(
+                                                          children: [
+                                                            GestureDetector(
+                                                                onTap: () {
+                                                                  videoViewModel.reactVideo(
+                                                                      videoId: widget
+                                                                          .video
+                                                                          .id!,
+                                                                      reaction:
+                                                                          reactions
+                                                                              .haha);
+                                                                  Get.back();
+                                                                },
+                                                                child: SizedBox(
+                                                                    height: 50,
+                                                                    child: ReactionImage(
+                                                                        react: reactions
+                                                                            .haha))),
+                                                            Text(snapshot.data![reactions.haha].toString())
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    );
+                                                  })),
+                                    ),
+                                  ));
+                                },
                               );
                             }),
                         const SizedBox(

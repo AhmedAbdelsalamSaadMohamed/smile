@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
-const Color _color1 = Colors.black;
+const Color main1 = Color.fromRGBO(20, 20, 20, 1);
+const Color main2 = Color.fromRGBO(44, 44, 44, 1);
+
+//const Color _color1 = Colors.black;
 const Color _color2 = Colors.white;
-const Color background2 = Colors.black12;
+// const Color background2 = Colors.black12;
 const Color onBackground2 = Colors.white54;
 const Color _primary = Color.fromRGBO(225, 51, 1, 1);
 
@@ -11,10 +14,12 @@ ThemeData darkTheme = ThemeData.dark().copyWith(
   hintColor: _color2,
   focusColor: _primary,
   hoverColor: _primary,
+  backgroundColor: main2,
   colorScheme: const ColorScheme.dark().copyWith(
-    background: _color1,
+    background: main1,
     onBackground: _color2,
-    primary: _color1,
+
+    //primary: main1,
     secondary: _color2,
   ),
   tabBarTheme: const TabBarTheme(
@@ -25,7 +30,7 @@ ThemeData darkTheme = ThemeData.dark().copyWith(
         insets: EdgeInsets.all(2),
       )),
   appBarTheme: const AppBarTheme(
-    backgroundColor: background2,
+    backgroundColor: main2,
     foregroundColor: _color2,
     elevation: 0,
     centerTitle: true,
@@ -49,7 +54,7 @@ ThemeData darkTheme = ThemeData.dark().copyWith(
           pressedElevation: 0)),
   elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(background2),
+          backgroundColor: MaterialStateProperty.all(main2),
           foregroundColor: MaterialStateProperty.all(_color2),
           elevation: MaterialStateProperty.all(0),
           padding: MaterialStateProperty.all(const EdgeInsets.all(20)))),
@@ -70,5 +75,19 @@ ThemeData darkTheme = ThemeData.dark().copyWith(
   ),
   progressIndicatorTheme: ProgressIndicatorThemeData(color: _color2,),
   snackBarTheme: SnackBarThemeData(actionTextColor: _color2),
-
+  textTheme: TextTheme(
+    bodyText1: TextStyle(),
+    bodyText2: TextStyle(),
+    headline1: TextStyle(),
+    headline2: TextStyle(),
+    caption: TextStyle(),
+    button: TextStyle(),
+    headline3: TextStyle(),
+    headline4: TextStyle(),
+    headline5: TextStyle(),
+    headline6: TextStyle(),
+    overline: TextStyle(),
+    subtitle1: TextStyle(),
+    subtitle2: TextStyle(),
+  ).apply(displayColor: _color2,bodyColor: _color2, decorationColor: _color2),
 );

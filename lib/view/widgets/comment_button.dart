@@ -24,12 +24,10 @@ class CommentButton extends StatelessWidget {
             Get.to(SignInPage(),
                 transition: Transition.downToUp);
           } else
-          Get.bottomSheet(SizedBox(
-            height: MediaQuery.of(context).size.height * 0.9,
-            child: VideoCommentsPage(
-              videoId: videoId,
-            ),
-          ));
+          showModalBottomSheet(context: context, builder: (context) =>
+              VideoCommentsPage(
+                videoId: videoId,
+              ));
         },
         icon: const Icon(
           Icons.mode_comment,

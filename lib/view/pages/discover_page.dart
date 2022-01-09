@@ -1,5 +1,8 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:smile/model/video_model.dart';
 import 'package:smile/services/firebase/tag_firestore.dart';
 import 'package:smile/view/pages/tag_videos_page.dart';
@@ -30,7 +33,11 @@ class DiscoverPage extends StatelessWidget {
                         color: Colors.grey,
                       );
                     }
-                    List<String> tags = [...snapshot.data!.keys];
+
+                    List<String> tags = snapshot.data!.keys.toList(growable:false)
+                      ..sort((k1, k2) => snapshot.data![k1]!.length.compareTo(snapshot.data![k2]!.length));
+                    LinkedHashMap sortedMap = new LinkedHashMap
+                        .fromIterable(tags, key: (k) => k, value: (k) => snapshot.data![k]);
                     return ListView.builder(
                       itemCount: tags.length,
                       itemBuilder: (context, index) => _TagWidget(
@@ -54,16 +61,19 @@ class _Search extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Form(
           key: _formKy,
-          child: TextFormField(
-            scrollPadding: const EdgeInsets.all(0),
-            decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              hintText: 'Search'.tr,
-              prefixIcon: IconButton(
-                icon: const Icon(Icons.search),
-                onPressed: () {},
+          child: SizedBox(
+            height: 50,
+            child: TextFormField(
+              //scrollPadding: const EdgeInsets.all(0),
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                hintText: 'Search'.tr,
+                prefixIcon: IconButton(
+                  icon: const Icon(Icons.search),
+                  onPressed: () {},
+                ),
               ),
             ),
           )),

@@ -31,7 +31,11 @@ exports.newPostNotificationFun = functions.firestore.document("posts/{postId}").
       // eslint-disable-next-line max-len
       body: text ? (text.length <= 100 ? text : text.substring(0, 97) + "...") : "",
       icon: owner.profile_url,
-      click_action: "https://${process.env.GCLOUD_PROJECT}.firebaseapp.com",
+      click_action: "FLUTTER_NOTIFICATION_CLICK",
+    },
+    data: {
+      "id": snapshot.id,
+      "action": "upload_post",
     },
   };
     // eslint-disable-next-line max-len

@@ -9,16 +9,26 @@ enum reactions {
 }
 
 class ReactButton extends StatelessWidget {
-  const ReactButton({Key? key, required this.react}) : super(key: key);
+  const ReactButton(
+      {Key? key,
+      required this.react,
+      required this.onTab,
+      required this.onLongPress})
+      : super(key: key);
   final reactions react;
+  final Function() onTab, onLongPress;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 50,
       height: 50,
-      child: ReactionImage(
-        react: react,
+      child: GestureDetector(
+        onTap: onTab,
+        onLongPress: onLongPress,
+        child: ReactionImage(
+          react: react,
+        ),
       ),
     );
   }

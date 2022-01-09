@@ -28,7 +28,7 @@ class PostWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Card(
-          margin: const EdgeInsets.symmetric(vertical: 10),
+          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
           child: Column(
             children: [
               /// header
@@ -89,7 +89,8 @@ class PostWidget extends StatelessWidget {
                                 child: Row(
                                   children: [
                                     Text(
-                                      postOwner.name ?? ' ',
+                                      postOwner.name ?? ' name',
+                                   //   style: TextStyle(color: Colors.green),
                                       // size: 16,
                                     ),
                                   ],

@@ -526,10 +526,7 @@ class MyDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme
-            .of(context)
-            .colorScheme
-            .primary,
+
         foregroundColor: Theme
             .of(context)
             .colorScheme

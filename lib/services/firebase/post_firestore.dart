@@ -35,22 +35,8 @@ deletePost(String postId){
     _postsReference.doc(postId).update({
       fieldPostLovesIds: FieldValue.arrayUnion([currentUser.id])
     }).then((value) {
-      getPostLovers(postId).then((value) {
-        value.forEach((userId) {
-          // NotificationModel notifi = NotificationModel(
-          //   userId: userId,
-          //   postId: postId,
-          //   action: 'react',
-          //   relation: 'reacted',
-          //   time: Timestamp.now(),
-          // );
-          // FirebaseFirestore.instance
-          //     .collection(tableUsers)
-          //     .doc(userId)
-          //     .collection(collectionNotifications)
-          //     .add(notifi.toFire());
-        });
-      });
+      getPostLovers(postId);
+
     });
   }
 
